@@ -27,7 +27,27 @@
             "유튜브 교육",
             "유튜브 강사",
             "디지털 리터러시 교육",
-            "디지털 리터러시 강사"
+            "디지털 리터러시 강사",
+			"제주 노션 전문가",
+			"제주 노션 강사",
+			"제주 notion 강사",
+			"제주 생성형 AI 강사",
+			"제주 쳇지피티 강사",
+			"제주 챗지피티 강사",
+			"제주 chatGPT 강사",
+			"제주 챗GPT 강사",
+			"제주 쳇GPT 강사",
+			"제주 AI 강사",
+			"제주 인공지능 강사",
+			"제주 디지털 전환 강사",
+			"기업 디지털 교육",
+			"기업 디지털 전환 교육",
+			"기업 AI 교육",
+			"기업 인공지능 교육",
+			"기관 AI 교육",
+			"기관 인공지능 교육",
+			"공공기관 AI 교육",
+			"맞춤형 디지털 교육"
           ],
           "inLanguage": "ko-KR",
           "publisher": {
@@ -48,6 +68,7 @@
           "@type": "Person",
           "@id": "https://make-future.oopy.io/#person",
           "name": "고재훈",
+		  "description": "제주도에서 활동하는 디지털 전문 강사 고재훈입니다. 노션, 생성형 AI, 코딩, 영상제작, 디지털 리터러시 등 다양한 디지털 교육과 컨설팅을 제공합니다. 노션 공인 관리자, 구글 제미나이 공인 교육자 자격을 보유하고 있습니다. 랜티처의 대표로서 디지털 교육 커리큘럼 개발과 강의, 컨설팅에 특화된 전문가입니다.",
           "alternateName": [
             "제주 AI 강사",
             "제주 생성형 AI 강사",
@@ -162,6 +183,7 @@
           "@type": "Organization",
           "@id": "https://www.lanteacher.kr/#org",
           "name": "랜티처",
+		  "description": "랜티처는 디지털 전환(DX), 인공지능 전환(AX) 교육과 컨설팅을 제공하는 기업입니다. 노션, 생성형 AI를 중심으로 디지털 교육과 컨설팅을 통해 기관, 기업, 개인이 디지털 시대에 적응하고 성장할 수 있도록 지원합니다.",
           "url": "https://www.lanteacher.kr/",
           "founder": {
             "@id": "https://make-future.oopy.io/#person"
@@ -194,7 +216,7 @@
           "@id": "https://make-future.oopy.io/#webpage",
           "url": "https://make-future.oopy.io/",
           "name": "미래를 만드는 디지털 전문 강사 고재훈",
-          "description": "노션·유튜브, 인공지능·코딩·개발, 영상·미디어 등 디지털 교육과 컨설팅을 제공하는 디지털 전문 강사 고재훈의 공식 페이지. Notion Certified Admin 자격과 기관 맞춤 수업, 활동 기록, 강의 이력을 안내합니다.",
+          "description": "노션·유튜브, 인공지능·코딩·개발, 영상·미디어 등 디지털 교육과 컨설팅을 제공하는 디지털 전문 강사 고재훈의 공식 페이지. 노션 공인 관리자 자격, 구글 제미나이 공인 교육 전문가, 기관 맞춤 수업, 활동 기록, 강의 이력을 안내합니다.",
           "isPartOf": {
               "@id": "https://make-future.oopy.io/#website"
           },
@@ -293,7 +315,8 @@
             },
             {
               "@type": "ServiceChannel",
-              "name": "오프라인 강의"
+              "name": "오프라인 강의",
+              "serviceUrl": "https://make-future.oopy.io/"
             }
           ]
         },
@@ -301,7 +324,7 @@
           "@type": "Service",
           "@id": "https://make-future.oopy.io/#service-ai",
           "name": "생성형 AI 활용 교육",
-          "description": "생성형 AI를 업무나 실생활에 활용하기 위한 교육.",
+          "description": "생성형 AI를 업무나 실생활에 활용하기 위한 교육. 구글 워크스페이스와 결합한 교육.",
           "provider": {
             "@id": "https://make-future.oopy.io/#person"
           },
@@ -349,7 +372,9 @@
             "ai 교육",
             "생성형 ai 교육",
             "챗GPT 교육",
-            "chatGPT 교육"
+            "chatGPT 교육",
+            "제미나이 교육",
+            "구글 워크스페이스 교육"
           ]
         },
         {
