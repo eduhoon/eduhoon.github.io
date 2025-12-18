@@ -3,99 +3,85 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
-    <title>Naver Map Diagnostic</title>
+    <title>Naver Map</title>
     <style>
+        /* 지도 화면 스타일 */
         body, html { margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden; background: #f0f0f0; }
         #map { width: 100%; height: 100%; }
         
-        .debug-info {
-            position: absolute;
-            top: 10px;
-            left: 10px;
-            z-index: 1000;
-            background: rgba(255, 255, 255, 0.95);
-            padding: 15px;
-            border: 2px solid #ff4444;
-            border-radius: 8px;
-            font-family: monospace;
-            font-size: 12px;
-            color: #333;
-            max-width: 90%;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        /* 에러 메시지 스타일 */
+        .error-msg {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+            color: #666;
+            font-family: sans-serif;
+            font-size: 14px;
+            text-align: center;
+            padding: 20px;
+            line-height: 1.6;
         }
-        .debug-item { margin-bottom: 5px; }
-        .debug-label { font-weight: bold; color: #d32f2f; }
     </style>
 </head>
 <body>
-
-<!-- 진단 정보 표시창 (지도가 안 나올 때 원인 분석용) -->
-<div id="debugBoard" class="debug-info">
-    <h3 style="margin:0 0 10px 0;">🔍 인증 실패 원인 분석</h3>
-    <div class="debug-item">
-        <span class="debug-label">현재 접속 도메인:</span><br>
-        <span id="currentDomain">...</span>
-    </div>
-    <div class="debug-item">
-        <span class="debug-label">입력된 Client ID:</span><br>
-        <span id="currentClientId">...</span>
-    </div>
-    <div class="debug-item">
-        <span class="debug-label">등록해야 할 URL:</span><br>
-        <span id="suggestUrl" style="background:#eee; padding:2px;">...</span>
-    </div>
-    <div style="margin-top:10px; font-size:11px; color:#666;">
-        위 '등록해야 할 URL'과 네이버 콘솔에 등록된 URL이<br>
-        <b style="color:red">글자 하나라도 다르면</b> 실패합니다.
-    </div>
-    <button onclick="document.getElementById('debugBoard').style.display='none'" style="margin-top:10px; padding:5px 10px; cursor:pointer;">창 닫기</button>
-</div>
-
+<!-- 지도 표시 영역 -->
 <div id="map"></div>
 
 <script>
+    /**
+     * ✅ 최종 완성본: URL 파라미터 기반 지도 표시
+     * 진단 코드를 제거하고 깔끔하게 정리된 버전입니다.
+     */
+
     // 1. URL 파라미터 읽기
     const urlParams = new URLSearchParams(window.location.search);
     const lat = parseFloat(urlParams.get('lat'));
     const lng = parseFloat(urlParams.get('lng'));
     const clientId = urlParams.get('clientId');
 
-    // 2. 진단 정보 출력
-    const currentDomain = window.location.protocol + "//" + window.location.hostname;
-    
-    document.getElementById('currentDomain').textContent = currentDomain;
-    document.getElementById('currentClientId').textContent = clientId ? clientId : "(없음)";
-    document.getElementById('suggestUrl').textContent = currentDomain;
+    const mapDiv = document.getElementById('map');
 
-    // Client ID가 없으면 경고
+    // 2. 유효성 검사
     if (!clientId) {
-        alert("Client ID가 없습니다. URL 뒤에 ?clientId=... 를 붙여주세요.");
+        mapDiv.innerHTML = 
+            "<div class='error-msg'>⚠️ <b>설정 오류</b><br>Client ID가 URL에 없습니다.<br>주소 뒤에 ?clientId=... 가 있는지 확인해주세요.</div>";
+    } 
+    else if (isNaN(lat) || isNaN(lng)) {
+        // ID는 있지만 좌표가 없는 경우 (정상 접속이지만 위치 미지정)
+        mapDiv.innerHTML = 
+            "<div class='error-msg'>📍 <b>위치 정보 대기 중</b><br>Client ID는 확인되었습니다.<br>좌표(?lat=...&lng=...)가 입력되면 지도가 표시됩니다.</div>";
     } 
     else {
-        // 3. 네이버 지도 로드 시도
+        // 3. 네이버 지도 스크립트 '동적' 로드
         const script = document.createElement('script');
         script.src = `https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId=${clientId}`;
         script.async = true;
         
         script.onload = () => {
-            // 성공하면 진단창 숨김 (선택사항)
-            // document.getElementById('debugBoard').style.display = 'none';
-            
             try {
-                if(isNaN(lat) || isNaN(lng)) return;
                 var position = new naver.maps.LatLng(lat, lng);
                 var map = new naver.maps.Map('map', {
                     center: position,
-                    zoom: 16
+                    zoom: 16,
+                    scaleControl: false,
+                    logoControl: false,
+                    mapDataControl: false,
+                    zoomControl: true,
+                    zoomControlOptions: {
+                        position: naver.maps.Position.TOP_RIGHT
+                    }
                 });
                 new naver.maps.Marker({ position: position, map: map });
             } catch (e) {
-                console.error(e);
+                mapDiv.innerHTML = 
+                    "<div class='error-msg'>🚫 <b>지도 실행 오류</b><br>" + e.message + "</div>";
             }
         };
 
         script.onerror = () => {
-            alert("⚠️ 인증 실패!\n\n화면에 표시된 '현재 접속 도메인'이\n네이버 콘솔 'Web 서비스 URL'에 똑같이 등록되어 있는지 확인하세요.");
+            mapDiv.innerHTML = 
+                "<div class='error-msg'>🚫 <b>API 로드 실패</b><br>Client ID가 틀렸거나<br>네이버 콘솔 설정(Web Dynamic Map)을 확인하세요.</div>";
         };
 
         document.head.appendChild(script);
