@@ -3,6 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+    <!-- ✅ 추가: 네이버 서버에 도메인 정보를 명확하게 전달하여 인증 오류 방지 -->
+    <meta name="referrer" content="origin">
     <title>Naver Map</title>
     <style>
         /* 지도 화면 스타일 */
@@ -31,14 +33,16 @@
 <script>
     /**
      * ✅ 최종 완성본: URL 파라미터 기반 지도 표시
-     * 진단 코드를 제거하고 깔끔하게 정리된 버전입니다.
+     * referrer 메타 태그 추가 및 공백 제거 로직 강화
      */
 
     // 1. URL 파라미터 읽기
     const urlParams = new URLSearchParams(window.location.search);
     const lat = parseFloat(urlParams.get('lat'));
     const lng = parseFloat(urlParams.get('lng'));
-    const clientId = urlParams.get('clientId');
+    // 공백이 섞여 들어가는 경우를 방지하기 위해 trim() 추가
+    const clientIdRaw = urlParams.get('clientId');
+    const clientId = clientIdRaw ? clientIdRaw.trim() : null;
 
     const mapDiv = document.getElementById('map');
 
@@ -80,8 +84,9 @@
         };
 
         script.onerror = () => {
+            // 에러 메시지 수정: 혼란을 주는 서비스 명칭을 제거하고 'Web 서비스 URL' 설정을 강조
             mapDiv.innerHTML = 
-                "<div class='error-msg'>🚫 <b>API 로드 실패</b><br>Client ID가 틀렸거나<br>네이버 콘솔 설정(Web Dynamic Map)을 확인하세요.</div>";
+                "<div class='error-msg'>🚫 <b>API 로드 실패</b><br>Client ID가 틀렸거나<br>네이버 콘솔의 <b>Web 서비스 URL</b> 설정을 확인하세요.<br>(Web Dynamic Map이 선택되었는지도 확인 필요)</div>";
         };
 
         document.head.appendChild(script);
