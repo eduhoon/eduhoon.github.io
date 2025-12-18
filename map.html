@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+    <title>Naver Map</title>
+    <!-- 네이버 지도 API 로드 -->
+    <script type="text/javascript" src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId=<?= clientId ?>"></script>
+    <style>
+        /* 지도 화면 스타일 */
+        body, html { margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden; background: #f0f0f0; }
+        #map { width: 100%; height: 100%; }
+        
+        /* 에러 메시지 스타일 */
+        .error-msg {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+            color: #666;
+            font-family: sans-serif;
+            font-size: 14px;
+            text-align: center;
+            padding: 20px;
+            line-height: 1.6;
+        }
+    </style>
+</head>
+<body>
+<!-- 지도 표시 영역 -->
+<div id="map"></div>
+
+<script>
+    // 서버(Code.gs)에서 전달된 값 받기
+    var lat = <?= lat || 'null' ?>;
+    var lng = <?= lng || 'null' ?>;
+    var clientId = "<?= clientId ?>"; 
+
+    // 1. Client ID 체크
+    if (!clientId || clientId === "null" || clientId === "undefined" || clientId === "") {
+        document.getElementById('map').innerHTML = 
+            "<div class='error-msg'>⚠️ <b>설정 오류</b><br>Client ID가 없습니다.<br>스크립트 속성을 확인해주세요.</div>";
+    } 
+    // 2. 좌표 체크
+    else if (lat === null || lng === null) {
+        document.getElementById('map').innerHTML = 
+            "<div class='error-msg'>📍 <b>위치 정보 없음</b><br>좌표가 전달되지 않았습니다.</div>";
+    } 
+    // 3. 지도 생성
+    else {
+        try {
+            var position = new naver.maps.LatLng(lat, lng);
+            var map = new naver.maps.Map('map', {
+                center: position,
+                zoom: 16,
+                scaleControl: false,
+                logoControl: false,
+                mapDataControl: false,
+                zoomControl: true,
+                zoomControlOptions: {
+                    position: naver.maps.Position.TOP_RIGHT
+                }
+            });
+            var marker = new naver.maps.Marker({ position: position, map: map });
+
+        } catch (e) {
+            // 네이버 API 로드 실패 시
+            document.getElementById('map').innerHTML = 
+                "<div class='error-msg'>🚫 <b>지도 로드 실패</b><br>" + e.message + "<br><br>네이버 콘솔에 도메인이 등록되었는지 확인하세요.</div>";
+        }
+    }
+</script>
+</body>
+</html>
