@@ -93,6 +93,17 @@ function closeMenu() {
 document.addEventListener('click', function(event) {
     const target = event.target;
 
+    // 로고 클릭 시 홈으로 이동
+    const logoLink = target.closest('.gnb-logo a');
+    if (logoLink) {
+        event.preventDefault();
+        // 히스토리에 현재 상태 기록 후 해시 없는 URL로 이동
+        history.pushState(null, '', window.location.pathname);
+        // 페이지 최상위로 스크롤
+        window.scrollTo(0, 0);
+        return;
+    }
+
     // 햄버거 버튼 클릭 (버튼 자체 또는 자식 span 클릭)
     const hamburger = target.closest('.gnb-hamburger');
     if (hamburger) {
@@ -173,11 +184,14 @@ document.addEventListener('click', function(event) {
         }
     }
 
-    // 서브메뉴 내부 링크 클릭 (모바일에서 메뉴 닫기)
-    const submenuLink = target.closest('.gnb-submenu a');
-    if (submenuLink && isMobile()) {
-        closeMenu();
-        return;
+    // 해시(#) 링크 클릭 시 메뉴 닫기 (모바일)
+    const gnbLink = target.closest('.gnb-menu a');
+    if (gnbLink && isMobile()) {
+        const href = gnbLink.getAttribute('href');
+        if (href && href.startsWith('#')) {
+            closeMenu();
+            return;
+        }
     }
 });
 
