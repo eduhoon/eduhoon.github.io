@@ -4,11 +4,11 @@
   /* 페이지 양끝 간격 */
   --page-side-padding: 48px !important;
   /* 콘텐츠 최대 사이즈 */
-  --page-max-width: 1100px !important;
+  /* --page-max-width: 1100px !important; */
   /* 헤더 영역의 높이 */
   --page-header-height: 47px;
   /* 데스크탑용 메뉴 넓이 */
-  --page-menu-width: 110px;
+  /* --page-menu-width: 110px; */
   --color-default: #121212;
   --color-point-blue: #48b5e8;
   --color-point-pink: #eb6466;
