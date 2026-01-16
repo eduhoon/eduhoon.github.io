@@ -39,7 +39,7 @@ if (!!gnb) setId(gnb.parentElement,'gnb');
 let titleArr=[getEle('.notion-topbar div:first-child a >div >div'),pageTitle];
 if (!pageTitle) titleArr=[getEle('.notion-topbar div:first-child a >div >div')];
 titleArr.forEach(ele=>{
-  const pageTitleSpanArea=ele.innerHTML.slice(7,12);
+  const pageTitleSpanArea=ele.innerHTML.slice(7,13);
   ele.innerHTML=ele.innerHTML.replace(pageTitleSpanArea,`<span>${pageTitleSpanArea}</span>`);
 });
 /* 컨텐츠 */
