@@ -13,9 +13,6 @@
   --color-point-blue: #48b5e8;
   --color-point-pink: #eb6466;
 }
-.notion-collection-item .notion-record-icon {
-  display: none !important;
-}
 a:hover {
   cursor: pointer;
 }
@@ -23,7 +20,10 @@ a:hover {
   min-width: 90px;
 }
 #gnb>div>div>div>div:first-child,
-#gnb>div>div>div>div:nth-child(2){
+#gnb>div>div>div>div:nth-child(2),
+.notion-collection-item .notion-record-icon,
+.notion-topbar >div >div:first-child >span,
+.notion-topbar >div >div:first-child >div:not(:first-child){
   display: none !important;
 }
 #gnb a>div>div {
