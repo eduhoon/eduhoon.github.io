@@ -87,6 +87,7 @@ h1.gnb-logo{
     padding: 8px 0;
     display: block;
     transition: color 0.3s ease;
+    white-space: nowrap;
 }
 
 .gnb-menu-item > a:hover {
