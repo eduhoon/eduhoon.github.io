@@ -164,10 +164,10 @@ h4 {
   padding-right: 0 !important;
 }
 /* 갤러리뷰 */
-.inner_gallery {
+.notion-gallery-view a >div[role="button"] {
   position: relative;
 }
-.inner_gallery>div:last-child {
+.notion-gallery-view a >div[role="button"] >div:last-child {
   position: absolute;
   left: 0;
   bottom: 0;
